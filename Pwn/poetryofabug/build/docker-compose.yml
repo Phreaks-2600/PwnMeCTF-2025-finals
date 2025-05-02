@@ -1,0 +1,11 @@
+services:
+  pdf_generator:
+    build:
+      context: ./pdf_generator
+      dockerfile: Dockerfile.generator
+      args:
+        FLAG: "PWNME{e1005fb19895b5d54696d06430281303}"
+    environment:
+      - PDF_GENERATOR_PORT=12345
+    ports:
+      - "12345:12345"

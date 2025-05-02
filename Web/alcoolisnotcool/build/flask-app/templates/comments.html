@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Comments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black">
+    <header class="bg-[#0055A4] py-6 shadow-lg">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center text-white">Comments</h1>
+            <a href="/" class="block text-center mt-2 text-white hover:text-[#FFD700] transition duration-300">Back to Home</a>
+        </div>
+    </header>
+    <section class="py-16 bg-gradient-to-r from-[#0055A4] to-[#FFD700]">
+        <div class="container mx-auto px-6">
+            <ul class="bg-white p-6 rounded-lg shadow-lg">
+                {% for comment in comments %}
+                    <li class="text-lg mb-4 text-[#0055A4]">{{ comment }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <footer class="bg-[#0055A4] py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg text-white">© 2025 Bar P4st1s. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,400 @@
+[profile.default]
+##################################################################################
+# Compiler Settings:
+
+# The Solc instance to use if any. This takes precedence over `auto_detect_solc`, if a version is set then this overrides auto-detection.
+solc-version = "0.8.28"
+# Contract sources
+src = 'src'
+# The test directory
+test = 'test'
+
+# The script directory
+script = 'script'
+
+# The artifact directory
+out = 'out'
+
+# A list of paths to look for libraries in
+libs = ["dependencies"]
+
+#remappings
+remappings = ['forge-std/=dependencies/forge-std-1.9.4/src']
+
+# Whether to autodetect remappings by scanning the `libs` folders recursively
+auto_detect_remappings = false
+
+# A list of deployed libraries to link against
+libraries = []
+
+# Where the broadcast logs are stored
+broadcast = 'broadcast'
+
+# additional solc include paths
+include_paths = []
+
+# Whether to ignore the cache
+force = true
+
+# Whether or not Forge should auto-detect the solc version to use
+auto_detect_solc = true
+
+# Disables downloading missing solc versions
+offline = false
+
+# A list of ignored solc error codes
+# license: 1878
+# code-size: 5574
+# func-mutability: 2018
+# unused-var: 2072
+# unused-param: 5667
+# unused-return: 9302
+# virtual-interfaces: 5815
+# missing-receive-ether: 3628
+# shadowing: 2519
+# same-varname: 8760
+# unnamed-return: 6321
+# unreachable: 5740
+# pragma-solidity: 3420
+# Function state mutability can be restricted to pure 2018
+ignored_error_codes = [1878, 5574, 2018]
+
+# Enables or disables the optimizer
+optimizer = true
+
+# The number of optimizer runs
+optimizer_runs = 200
+
+#  Version of the EVM to compile for. Affects type checking and code generation. Can be homestead, tangerineWhistle, spuriousDragon, byzantium, constantinople, petersburg, istanbul, berlin, london, paris, shanghai, cancun (default) or prague
+# evm_version = 'cancun'
+
+# Whether to use the Yul optimizer
+via_ir = false
+
+# Switch optimizer components on or off in detail
+# [profile.default.optimizer_details]
+# The peephole optimizer is always on if no details are given, use details to switch it off.
+# peephole = true
+# inliner = false
+# jumpdestRemover = true
+# orderDependent = true
+# deduplicate = false
+# cse = false
+# constantOptimizer = false
+# yul = false
+# yul = true
+
+# [profile.default.optimizer_details.yulDetails]
+# stackAllocation = true
+# optimizerSteps = 'dhfoDgvulfnTUtnIf'
+# optimizerSteps = 'dhfoD[xarrscLMcCTU]uljmul:fDnTOcmu'
+# optimzerSteps = 'dhfoDgvulfnTUtnIf [ xa[r]EscLM cCTUtTOntnfDIul Lcul Vcul [j] Tpeul xa[rul] xa[r]cL gvif CTUca[r]LSsTFOtfDnca[r]Iulc ] jmul[jul] VcTOcul jmul : fDnTOcmu'
+
+# Use the given hash method for the metadata hash that is appended to the bytecode.
+cbor_metadata = false
+
+# The metadata hash can be removed from the bytecode by setting "none", "bzzr1"
+bytecode_hash = "none"
+
+# How to treat revert (and require) reason strings
+# Options are: strip, debug, verboseDebug 
+revert_strings = "default"
+
+# Extra output to include in the contract's artifact. 
+# Example keys: "abi" , "evm.bytcode", "evm.deployedBytecode", "evm.methodIdentifiers"
+extra_output = []
+
+# Extra output to write to files in the artifacts dierctory
+# Example keys: evm.assembly, ewasm, ir, ir-optimized, metadata.
+extra_output_files = []
+
+# Compilation to use literal content and not URLs
+use_literal_content = false
+
+# Model checker settings.
+[profile.defalut.model_checker]
+contracts = {}
+engine = 'none'
+timeout = 10000
+targets = 'default'
+# contracts = { '/path/to/project/src/Contract.sol' = [ 'Contract' ] }
+# engine = 'chc' / 'bmc' 'all'
+# timeout = 10000
+# targets =  'assert' / undeflow / overflow / divByZero / constantCondition / popEmptyArray / outOfBounds / default 
+# invariant = 'contract' / 'reentrancy'
+# show_unproved = false / true
+# solvers = cvc4 / eld (introduced in v0.8.18) / smtlib2 / z3
+
+
+# Treat compiler warnings as errors
+deny_warnings = false
+
+# Ignore warnings from a file
+ignored_warnings_from = [
+    "path/to/warnings/file1.sol",
+    "path/to/warnings/file2.sol",
+]
+
+allow_paths = ["../lib"]
+
+# Allow paths
+# Whether to cache builds or not
+cache = true
+
+# The cache directory if enabled
+cache_path = 'cache'
+
+# If enabled, the Solidity compiler is instructed to generate bytecode
+# only for the required contracts. This can reduce compile time
+# for `forge test`, but is experimental.
+sparse_mode = false
+
+##################################################################################
+# Etherscan API key
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}", chain = "mainnet" }
+optimism = { key = "${ETHERSCAN_API_KEY}", chain = "optimism" }
+fantom = { key = "${ETHERSCAN_API_KEY}", chain = "fantom" }
+arbitrum = { key = "${ETHERSCAN_API_KEY}", chain = "arbitrum" }
+bsc = { key = "${ETHERSCAN_API_KEY}", chain = "bsc", url = "https://api.bscscan.com/" }
+moonriver = { key = "${ETHERSCAN_API_KEY}", chain = "moonriver" }
+gnosis = { key = "${ETHERSCAN_API_KEY}", chain = "gnosis" }
+Avalanche = { key = "${ETHERSCAN_API_KEY}", chain = "avalanche" }
+# polygon = { key = "${ETHERSCAN_API_KEY}", chain = "polygon" }
+celo = { key = "${ETHERSCAN_API_KEY}", chain = "celo" }
+unknown_chain = { key = "ABCDEFG", url = "<etherscan api url for this chain>" }
+##################################################################################
+# Forge Formatter Settings
+[fmt]
+# -   `"single"` - Statement blocks will be formatted to a single line if possible.
+#    `"multi"` - Statement blocks will always be formatted to multiple lines.
+#-   `"preserve"` - Keep the existing single/multi line formatting of statement blocks.
+single_line_statement_blocks = "preserve"
+# Line spacing
+line_length = 120
+# Number of spaces per indentation level
+tab_width = 4
+# Print spaces between brackets
+bracket_spacing = false
+# Style of uint/int256 types
+# - `long` (default): Use the explicit `uint256` or `int256`
+# - `short`: Use the implicit `uint` or `int`
+# - `preserve`: Use the type defined in the source code
+int_types = "long"
+multiline_func_header = 'attributes_first'
+# Style of quotation marks
+quote_style = "double"
+# Style of underscores in number literals
+number_underscore = "thousands"
+override_spacing = false
+wrap_comments = false
+ignore = ["src/console.sol", "src/console2.sol"]
+contract_new_lines = true
+sort_imports = true
+
+##################################################################################
+# Forge Fuzzer Settings
+[fuzz]
+# The number of fuzz runs for fuzz tests
+runs = 256
+# The maximum number of test case rejections allowed by proptest, to be
+# encountered during usage of `vm.assume` cheatcode. This will be used
+# to set the `max_global_rejects` value in proptest test runner config.
+# `max_local_rejects` option isn't exposed here since we're not using
+# `prop_filter`.
+max_test_rejects = 65536
+# Being deprecated in favor of `max_test_rejects`. Will be removed in future versions.
+# max_global_rejects = 65536 (Depricated in favour of max_test_rejects )
+# The weight of the dictionary
+dictionary_weight = 40
+# The flag indicating whether to include values from storage
+include_storage = true
+# The flag indicating whether to include push bytes values
+include_push_bytes = true
+# Optional seed for the random number generator
+# seed = 0
+
+##################################################################################
+[invariant]
+# The number of runs that must execute for each invariant test group
+runs = 256
+# The number of calls executed to attempt to break invariants in one run
+depth = 15
+# Fails the invariant fuzzing if a revert occurs
+fail_on_revert = false
+# Allows overriding an unsafe external call when running invariant tests. eg. reentrancy checks
+call_override = false
+# The weight of the dictionary
+dictionary_weight = 80
+# The flag indicating whether to include values from storage
+include_storage = true
+# The flag indicating whether to include push bytes values
+include_push_bytes = true
+
+# The maximum numbe rof attempts to shrink a failed the sequence.
+shrink_run_limit = 5000
+
+##################################################################################
+# Testing Settings
+
+# The verbosity of tests
+verbosity = 1
+
+# Whether or not to enable `vm.ffi`
+ffi = false
+
+# The address of `tx.origin` in tests
+tx_origin = "0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84"
+
+# The address of `msg.sender` in tests
+sender = "0xb4c79daB8f259C7Aee6E5b2Aa729821864227e84"
+
+# The initial balance of the test contract
+initial_balance = '0xffffffffffffffffffffffff'
+
+# The chain ID we are on in tests
+chain_id = 31337
+
+# The `block.number` value during EVM execution
+block_number = 1
+
+# The gas limit in tests
+gas_limit = 9223372036854775807
+
+# The gas price in tests (in wei)
+gas_price = 0
+
+# The block basefee in tests (in wei)
+block_base_fee_per_gas = 0
+
+# The address of `block.coinbase` in tests
+block_coinbase = '0x0000000000000000000000000000000000000000'
+
+# The block timestamp in tests
+block_timestamp = 1
+
+# The block difficulty in tests
+block_difficulty = 0
+
+
+# A list of contracts to output gas reports for
+gas_reports = ['*']
+# A list of contracts to ignore for gas reports
+gas_reports_ignore = []
+
+no_rpc_rate_limit = false
+
+no_storage_caching = false
+
+# Configures the permissions of cheat codes that touch the file system
+[[profile.default.fs_permissions]]
+access = "read-write"
+path = "./"
+
+[profile.default.rpc_storage_caching]
+chains = 'all'
+endpoints = 'all'
+
+# Only runs test methods  matching the test
+# match-test= 'regex'
+
+# Only runs test methods not matching the test
+# no-match-test= 'regex'
+
+# Only runs test methods not matching the test
+# no-match-test= 'regex'
+
+# Only runs test methods on files  matching the contract
+# match-contract = 'regex'
+
+# Only runs test methods on files not matching the contract
+# no-match-contract = 'regex'
+
+# Only runs test methods on files  matching the path
+# match-path = 'regex'
+
+# Only runs test methods on files not matching the path
+# no-match-path = 'regex'
+
+# The block gas limit
+# block_gas_limit = None
+
+# The memory limit of the EVM (32 MB by default)
+memory_limit = 33554432
+
+# Print the names of the compiled contracts
+names = false
+
+# Print the sizes of the compiled contracts
+sizes = false
+
+# Contains alias -> URL|Env pairs for RPC endpoints that can be accessed during testing
+[rpc_endpoints]
+
+# mainnet = "https://mainnet.infura.io/v3/${INFURA_API"
+sepolia = "https://sepolia.infura.io/v3/${INFURA_API}"
+linea = "https://linea-mainnet.infura.io/v3/${INFURA_API}"
+polygon = "https://polygon-mainnet.infura.io/v3/${INFURA_API}"
+blast = "https://blast-mainnet.infura.io/v3/${INFURA_API}"
+optimism = "https://optimism-mainnet.infura.io/v3/${INFURA_API}"
+arbitrum = "https://arbitrum-mainnet.infura.io/v3/${INFURA_API}"
+bsc = "https://bsc-mainnet.infura.io/v3/${INFURA_API}"
+base = "https://base-mainnet.infura.io/v3/${INFURA_API}"
+avalanche = "https://avalanche-mainnet.infura.io/v3/${INFURA_API}"
+fantom = "https://rpc.ankr.com/fantom"
+moonriver = "https://moonriver.public.blastapi.io"
+gnosis = "https://rpc.ankr.com/gnosis"
+celo = "https://rpc.ankr.com/celo"
+mainnet = "https://rpc.ankr.com/eth"
+# optimism = "https://opt-mainnet.g.alchemy.com/v2/demo"
+# fantom = "https://rpc.ankr.com/fantom"
+# arbitrum = "https://rpc.ankr.com/arbitrum"
+# bsc = "https://rpc.ankr.com/bsc"
+# moonriver = "https://moonriver.public.blastapi.io"
+# gnosis = "https://rpc.ankr.com/gnosis"
+# Avalanche = "https://rpc.ankr.com/avalanche"
+# polygon = "https://rpc.ankr.com/polygon"
+# celo = "https://rpc.ankr.com/celo"
+# sepolia = "https://rpc.ankr.com/eth_sepolia"
+
+
+##################################################################################
+[doc]
+# Default output directory for documentation
+out = 'doc'
+
+# Title for the documentation
+title = 'Forge Documentation'
+
+# The path to use provide book.toml. It will be merged during doc gen
+book = 'book.toml'
+
+# The git repository URL to used to provide links to git source files.
+# repository = "./"
+
+# List of files to ignore while generation documenation
+ignore = []
+
+##################################################################################
+[soldeer]
+# whether soldeer manages remappings
+remappings_generate = true
+
+# whether soldeer re-generates all remappings when installing, updating or uninstalling deps
+remappings_regenerate = false
+
+# whether to suffix the remapping with the version: `name-a.b.c`
+remappings_version = true
+
+# a prefix to add to the remappings ("@" would give `@name`)
+remappings_prefix = ""
+
+# where to store the remappings ("txt" for `remappings.txt` or "config" for `foundry.toml`)
+# ignored when `soldeer.toml` is used as config (uses `remappings.txt`)
+remappings_location = "txt"
+
+# Automatically install sub dependencies when running tests
+# recursive_deps = true
+
+[dependencies]
+forge-std = "1.9.4"

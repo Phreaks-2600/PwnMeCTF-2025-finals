@@ -1,0 +1,8 @@
+services:
+  treasure:
+    build: .
+    image: treasure:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - FLAG=PWNME{56837e80d608e85bb886f2b4b66a47c9}

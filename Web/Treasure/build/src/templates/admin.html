@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded-lg" x-data="{
+    file: null,
+    uploading: false,
+    progress: 0,
+    errorMessage: '',
+    uploadFile() {
+        if (!this.file) return;
+        
+        const allowedTypes = ['application/json', 'image/png', 'image/jpeg', 'image/jpg', 'text/plain'];
+        if (!allowedTypes.includes(this.file.type)) {
+            this.errorMessage = 'Invalid file type. Only JSON, PNG, JPEG, JPG, and TXT are allowed.';
+            return;
+        }
+        
+        this.uploading = true;
+        this.errorMessage = '';
+        let formData = new FormData();
+        formData.append('file', this.file);
+
+        fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                this.errorMessage = data.error;
+                this.uploading = false;
+                return;
+            }
+            console.log('Success:', data);
+            this.uploading = false;
+            this.progress = 100;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            this.errorMessage = 'An error occurred during upload.';
+            this.uploading = false;
+        });
+    }
+}">
+    <label class="block text-sm font-medium text-gray-700"><i class="fa-solid fa-upload"></i> Upload File</label>
+    <input type="file" @change="file = $event.target.files[0]" accept=".json, .png, .jpeg, .jpg, .txt" class="mt-1 p-2 w-full border rounded-md">
+    <button @click="uploadFile" class="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:opacity-50" :disabled="uploading">
+        Upload
+    </button>
+    <div x-show="errorMessage" class="mt-2 text-red-600" x-text="errorMessage"></div>
+    <div x-show="uploading" class="mt-4 text-center text-gray-600">Uploading...</div>
+</div>
+
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded-lg" x-data="{
+    time: '30',
+    backupResult: '',
+    errorMessage: '',
+    showModal: false,
+    requestBackup() {
+        this.errorMessage = '';
+        fetch('/api/backup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ time: this.time })
+        }).then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                this.errorMessage = data.error;
+                return;
+            }
+            this.backupResult = data.output;
+            this.showModal = true;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            this.errorMessage = 'An error occurred during the request.';
+        });
+    }
+}">
+    <label class="block text-sm font-medium text-gray-700"><i class="fa-solid fa-clock"></i> Backup Timeout Time (seconds)</label>
+    <input type="number" step="1" min="1" x-model="time" class="mt-1 p-2 w-full border rounded-md">
+    <button @click="requestBackup" class="mt-4 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+        Request Backup
+    </button>
+    <div x-show="errorMessage" class="mt-2 text-red-600" x-text="errorMessage"></div>
+
+    <!-- Modal -->
+    <div x-show="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-2 rounded-lg shadow-lg max-w-sm relative">
+            <button @click="showModal = false" class="absolute top-0 right-2 text-gray-600 hover:text-gray-900 text-xl">&times;</button>
+            <label class="block text-sm font-medium text-gray-700">Output</label>
+            <p class="text-white mt-1 p-2 bg-gray-600 rounded" x-text="backupResult"></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+FROM codercom/code-server:latest
+
+# Switch to root to install packages and dependencies
+USER root
+
+# Install Node.js and npm (skip if already included)
+RUN apt update && apt install -y nodejs npm
+
+# Set working directory and copy app code
+WORKDIR /home/coder/project
+COPY app /home/coder/project
+
+# Fix permissions so coder user can use everything
+RUN chown -R coder:coder /home/coder/project
+
+# Switch back to the "coder" user before runtime
+USER coder
+
+# Pre-install dependencies (optional)
+RUN npm install
+
+EXPOSE 8080 3000
+
+CMD ["code-server", "/home/coder/project", "--auth", "none", "--bind-addr", "0.0.0.0:8080"]

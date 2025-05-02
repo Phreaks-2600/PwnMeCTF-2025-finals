@@ -1,0 +1,10 @@
+version: "2.27.0"
+services:
+  perfectgcm:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - FLAG=PWNME{luck1ly_1_th0ugh7_t0_ch3ck}
+    ports:
+      - 3000

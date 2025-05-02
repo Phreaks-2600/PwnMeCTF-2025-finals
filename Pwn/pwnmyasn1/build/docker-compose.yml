@@ -1,0 +1,10 @@
+services:
+  pwnmyasn1:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        FLAG: "PWNME{f873f7c3b72f439d597cce044707c505}"
+    image: pwnme/pwnmyasn1:latest
+    ports:
+      - "31000:31000"

@@ -1,0 +1,9 @@
+services:
+  blocki_blocka:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - FLAG=PWNME{6067e7997e0302ad4b822f45bb085af7}
+    ports:
+      - 3000:3000

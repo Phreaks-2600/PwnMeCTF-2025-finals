@@ -1,0 +1,7 @@
+BROKER: 'broker.Broker'
+INTERPRETER: 'Interpreter'
+INTERPRETER_DATA: 'InterpreterData'
+INTERPRETER_DATA_PTR: int
+
+PY_STRONG_REFERENCES = []
+

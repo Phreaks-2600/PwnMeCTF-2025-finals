@@ -1,0 +1,15 @@
+services:
+  feel:
+    build: ./
+    ports:
+      - "10020:10020"
+      - "10019:10019"
+    restart: unless-stopped
+    environment:
+      - FLAG=PWNME{what_4_fullch41n_isnt_1t?___could_be_realL1f3_sh1t}
+      - PORT=10020
+      - HTTP_PORT=10019
+      - PUBLIC_IP=localhost
+      - FUNC_SIG_IS_SOLVED=isSolved()
+      - SHARED_SECRET=blablibloubloubloublabliHELLO
+      - ENV=production

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="container mx-auto px-4 py-6" x-data="inventoryApp()" x-init="init()">
+    <h1 class="text-2xl font-bold mb-4">Inventory</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6 flex items-center">
+        <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-xl">
+            <span x-text="profile.username.charAt(0).toUpperCase()"></span>
+        </div>
+        <div class="ml-4">
+            <h2 class="text-lg font-semibold text-gray-800" x-text="profile.username"></h2>
+            <p class="text-sm text-gray-600">Role: <span x-text="profile.role"></span></p>
+            <p class="text-sm text-gray-600">Balance: <span x-text="`${profile.balance}$`" class="text-green-500"></span></p>
+        </div>
+    </div>
+
+    <div x-show="loading" class="text-center text-gray-500 transition-opacity duration-500">
+        Loading inventory...
+    </div>
+
+    <div x-show="!loading && items.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <template x-for="item in items" :key="item.id">
+            <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+                <img :src="`/static/img/items/${item.image}`" alt="Item image" class="w-full object-cover rounded-md mb-4">
+                <h2 class="text-lg font-semibold" x-text="item.name"></h2>
+                <p class="text-sm text-gray-500">Rarity: <span x-text="item.rarity" :class="{
+                    'text-gray-500': item.rarity == 'none',
+                    'text-green-500': item.rarity == 'common',
+                    'text-gray-800': item.rarity == 'rare',
+                    'text-blue-500': item.rarity == 'mystic',
+                    'text-yellow-500': item.rarity == 'legendary',
+                    'text-purple-500': item.rarity == 'impossible'
+                }"></span></p>
+                <p class="text-sm text-gray-500">Quantity: <span x-text="item.quantity"></span></p>
+            </div>
+        </template>
+    </div>
+
+    <div x-show="!loading && items.length === 0" class="text-center text-gray-500 transition-opacity duration-500">
+        No items found in your inventory.
+    </div>
+</div>
+
+<script>
+    function inventoryApp() {
+        return {
+            items: [],
+            loading: true,
+            profile: {
+                username: '',
+                role: '',
+                balance: 0
+            },
+            async fetchInventory() {
+                try {
+                    const response = await fetch('/api/inventory', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    });
+                    if (response.ok) {
+                        this.items = await response.json();
+                    } else {
+                        console.error('Failed to fetch inventory:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching inventory:', error);
+                } finally {
+                    this.loading = false;
+                }
+            },
+            async fetchProfile() {
+                try {
+                    const response = await fetch('/api/profile', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    });
+                    if (response.ok) {
+                        this.profile = await response.json();
+                    } else {
+                        console.error('Failed to fetch profile:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching profile:', error);
+                }
+            },
+            init() {
+                this.fetchProfile();
+                this.fetchInventory();
+            }
+        };
+    }
+</script>
+{% endblock %}

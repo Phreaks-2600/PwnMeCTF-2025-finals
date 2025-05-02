@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  dansemacabre:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        FLAG: "PWNME{Cryptanalysis Mastery. You're a pro!}"
+    ports:
+      - 6666:6666

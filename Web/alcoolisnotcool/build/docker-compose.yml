@@ -1,0 +1,9 @@
+services:
+  app:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - FLAG=PWNME{R1c4rd_1s_7h3_b35t_f0r_pwn1ng}
+    ports:
+      - "1337:1337"

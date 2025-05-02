@@ -1,0 +1,10 @@
+{
+    "items": [
+        {"id": 0, "rarity": "none", "name": "Nothing", "drop_rate": 71.9, "image": "Nothing.webp"},
+        {"id": 1, "rarity": "common", "name": "Village Banner", "drop_rate": 20, "image": "Village Banner.jpeg"},
+        {"id": 2, "rarity": "rare", "name": "The Banner of Lost Souls", "drop_rate": 6, "image": "The Banner of Lost Souls.jpeg"}, 
+        {"id": 3, "rarity": "mystic", "name": "The Banner of Eternal Whispers", "drop_rate": 2, "image": "The Banner of Eternal Whispers.jpeg"}, 
+        {"id": 4, "rarity": "legendary", "name": "The Eternal Flame's Standard", "drop_rate": 0.1, "image": "The Eternal Flame's Standard.jpeg"}, 
+        {"id": 1337, "rarity": "impossible", "name": "The Celestial Dominion's Banner", "drop_rate": 0, "image": "The Celestial Dominion's Banner.jpeg"}
+    ]
+}

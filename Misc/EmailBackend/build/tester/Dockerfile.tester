@@ -1,0 +1,20 @@
+FROM node:latest
+
+WORKDIR /tests
+
+# Copy test scripts and test suite
+COPY tests ./tests
+COPY run_tests.sh start_nc.sh ./
+COPY package.json ./
+COPY .env ./
+
+# Install dependencies
+RUN apt update && apt install -y curl netcat-traditional
+RUN npm install --save-dev jest supertest dotenv
+
+# Make scripts executable
+RUN chmod +x run_tests.sh start_nc.sh
+
+EXPOSE 1337
+
+CMD ["bash", "start_nc.sh"]

@@ -1,0 +1,12 @@
+FROM node:latest
+
+# Install nodemon globally as root (before switching users)
+RUN npm install -g nodemon
+
+# Create a non-root user and switch to it
+RUN useradd -m appuser
+USER appuser
+
+WORKDIR /app
+
+CMD ["nodemon", "--watch", ".", "server.js"]

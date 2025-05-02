@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the P4st1s bar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black">
+    <header class="bg-[#0055A4] py-6 shadow-lg">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold text-center text-white">Welcome to P4st1s bar 🍋</h1>
+            <p class="text-lg text-center mt-2 text-white">The art of aperitif, since 1337</p>
+        </div>
+    </header>
+    <section class="py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6 text-[#0055A4]">Discover our creations</h2>
+            <p class="text-xl mb-8">Dive into the sunny world of alcohol, where each glass is an invitation to conviviality.</p>
+        </div>
+    </section>
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold text-[#0055A4]">Your Balance</h3>
+            <p class="text-2xl mt-2" id="user-balance">{{ user_balance }} €</p>
+        </div>
+    </section>
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold text-[#0055A4]">Discount Code</h3>
+            <input type="text" id="discount-code" class="border p-2 rounded-lg mb-2 w-full max-w-xs" placeholder="Enter your discount code">
+            <p class="text-sm text-gray-600">(One valid discount code for all purchases)</p>
+        </div>
+    </section>
+    <section id="stock" class="py-16 bg-gradient-to-r from-[#0055A4] to-[#FFD700]">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-10 text-white">Our Selection</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                {% for drink, quantity in stock.items() %}
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+                        <h3 class="text-2xl font-bold mb-4 text-[#0055A4]">{{ drink|capitalize }}</h3>
+                        <p class="text-lg mb-2">Available quantity : {{ quantity }}</p>
+                        <p class="text-lg mb-4">Price : {{ prices[drink] }} €</p>
+                        <button class="bg-[#FFD700] hover:bg-[#FFC800] text-[#0055A4] px-6 py-2 rounded-lg transition duration-300" onclick="buyDrink('{{ drink }}')">Buy {{ drink|capitalize }}</button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="py-8 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <div id="global-message" class="text-lg"></div>
+        </div>
+    </section>
+    <section class="py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-6 text-[#0055A4]">Comments</h2>
+            <p class="text-xl mb-8">Did you like it ? <a href="/comment" class="underline text-[#0055A4] hover:text-[#FFD700]">Leave a comment</a>.</p>
+        </div>
+    </section>
+
+    <footer class="bg-[#0055A4] py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg text-white">© 2025 Bar P4st1s. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function buyDrink(drink) {
+            const messageDiv = document.getElementById("global-message");
+            const balanceDiv = document.getElementById("user-balance");
+            const discountCodeInput = document.getElementById("discount-code");
+
+            if (!messageDiv || !balanceDiv || !discountCodeInput) {
+                console.error("Missing element in the DOM.");
+                return;
+            }
+
+            messageDiv.textContent = "";
+            const discountCode = discountCodeInput.value;
+
+            try {
+                const response = await fetch("/buy", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ drink: drink, discount_code: discountCode }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const stockDiv = document.getElementById("stock");
+                    stockDiv.innerHTML = "";
+
+                    const drinksContainer = document.createElement("div");
+                    drinksContainer.className = "flex flex-wrap justify-center gap-8";
+                    stockDiv.appendChild(drinksContainer);
+
+                    for (const [drink, quantity] of Object.entries(data.stock)) {
+                        const item = document.createElement("div");
+                        item.className = "bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4";
+                        item.innerHTML = `
+                            <h3 class="text-2xl font-bold mb-4 text-[#0055A4]">${drink.charAt(0).toUpperCase() + drink.slice(1)}</h3>
+                            <p class="text-lg mb-2">Quantité disponible : ${quantity}</p>
+                            <p class="text-lg mb-4">Prix : ${data.prices[drink]} €</p>
+                            <button class="bg-[#FFD700] hover:bg-[#FFC800] text-[#0055A4] px-6 py-2 rounded-lg transition duration-300" onclick="buyDrink('${drink}')">Acheter ${drink.charAt(0).toUpperCase() + drink.slice(1)}</button>
+                        `;
+                        drinksContainer.appendChild(item);
+                    }
+                    balanceDiv.textContent = `${data.balance} €`;
+                    let successMessage = data.message;
+                    if (data.discount_applied) {
+                        successMessage += " Discount applied ! You have benefited from a 50% discount.";
+                    }
+                    messageDiv.textContent = successMessage;
+                    messageDiv.className = "text-green-600 text-lg text-center mt-4";
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = "text-red-600 text-lg text-center mt-4";
+                }
+            } catch (error) {
+                console.error("Error while buying drink :", error);
+                messageDiv.textContent = "Error while buying drink.";
+                messageDiv.className = "text-red-600 text-lg text-center mt-4";
+            }
+        }
+    </script>
+</body>
+</html>

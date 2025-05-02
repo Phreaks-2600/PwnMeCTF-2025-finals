@@ -1,0 +1,9 @@
+services:
+  a_secret_path:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        FLAG: "PWNME{Th4t_A_Sup3r_Ser1alis4tion_No_?_H4rD4r_th4n_A_S1mpl3_Pickl3:3}"
+    ports:
+      - 4444:4444

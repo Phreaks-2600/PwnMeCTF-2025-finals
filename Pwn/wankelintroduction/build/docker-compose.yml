@@ -1,0 +1,11 @@
+services:
+  wankel_intro:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        FLAG: "PWNME{8ce8910cd620f3c71d2d608738530ab4}"
+    image: pwnme/wankel_intro:latest
+    ports:
+      - "1234:1234"
+

@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  lwsclwe:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - FLAG=PWNME{b@d_id3a_to_make_ur_own_CrYPToGraPHic_Sch3me}
+    ports:
+      - 3000

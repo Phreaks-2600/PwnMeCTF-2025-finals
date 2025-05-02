@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  vscode-container:
+    build:
+      context: ./vscode-app
+      dockerfile: Dockerfile.vscode
+    container_name: vscode-container
+    ports:
+      - "8080:8080"  # VSCode
+      - "3000:3000"  # Web app
+    depends_on:
+      - mongodb
+    networks:
+      - ctfnet
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/email-ctf
+      - JWT_SECRET=super_secret_key
+      - ADMIN_USERNAME=admin@mailgo.com
+      - ADMIN_PASSWORD=veryveryweakpassword
+    volumes:
+      - app-code:/home/coder/project
+
+  sandbox-container:
+    build:
+      context: ./sandbox
+      dockerfile: Dockerfile.sandbox
+    container_name: sandbox-container
+    expose:
+      - "3001"
+    depends_on:
+      - mongodb
+    networks:
+      - ctfnet
+    volumes:
+      - app-code:/app
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/email-ctf
+      - JWT_SECRET=super_secret_key
+      - PORT=3001
+
+  tester-container:
+    build:
+      context: ./tester
+      dockerfile: Dockerfile.tester
+    container_name: tester-container
+    ports:
+      - "1337:1337"
+    depends_on:
+      - sandbox-container
+    networks:
+      - ctfnet
+    environment:
+      - API_BASE_URL=http://sandbox-container:3001
+      - JWT_SECRET=super_secret_key
+      - ADMIN_USERNAME=admin@mailgo.com
+      - ADMIN_PASSWORD=veryveryweakpassword
+      - FLAG=PWNME{2a0207ef2bba97592b89bf70ffd5c561}
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    expose:
+      - "27017"
+    networks:
+      - ctfnet
+
+networks:
+  ctfnet:
+    driver: bridge
+
+volumes:
+  app-code:

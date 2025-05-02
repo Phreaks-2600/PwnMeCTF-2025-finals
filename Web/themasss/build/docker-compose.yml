@@ -1,0 +1,17 @@
+services:
+  app:
+    build: ./app
+    environment:
+      - JWT_SECRET_KEY="ppUGMeHVTNcq1xKeUksKVgueGpCisvQm"
+      - FLAG=PWNME{M4SS_ASS1GN3M3NT_IS_S000000-DANG3R0US_BR0!!!}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    environment:
+      - JWT_SECRET_KEY="ppUGMeHVTNcq1xKeUksKVgueGpCisvQm"
+    ports:
+      - "5001:5001"
